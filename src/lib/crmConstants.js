@@ -48,6 +48,10 @@ export const ACTIVITY_TYPES = [
   'other',
 ];
 
+// User management — must stay in sync with the profiles CHECK constraints.
+export const USER_STATUSES = ['pending', 'approved', 'rejected'];
+export const USER_ROLES = ['member', 'admin'];
+
 // Fallbacks used by CSV normalization (see below) and defensive UI code.
 export const DEFAULT_CATEGORY = 'other';
 export const DEFAULT_STAGE = 'new_lead';
@@ -83,6 +87,23 @@ export const CLIENT_TYPE_LABELS = {
 export const ACTIVITY_TYPE_LABELS = Object.fromEntries(
   ACTIVITY_TYPES.map((t) => [t, labelize(t)])
 );
+
+export const USER_STATUS_LABELS = Object.fromEntries(
+  USER_STATUSES.map((s) => [s, labelize(s)])
+);
+export const USER_ROLE_LABELS = Object.fromEntries(
+  USER_ROLES.map((r) => [r, labelize(r)])
+);
+
+export const USER_STATUS_BADGE = {
+  pending: 'bg-amber-50 text-amber-700',
+  approved: 'bg-emerald-50 text-emerald-700',
+  rejected: 'bg-rose-50 text-rose-700',
+};
+export const USER_ROLE_BADGE = {
+  admin: 'bg-indigo-50 text-indigo-700',
+  member: 'bg-gray-100 text-gray-600',
+};
 
 // ---------------------------------------------------------------------------
 // Color maps

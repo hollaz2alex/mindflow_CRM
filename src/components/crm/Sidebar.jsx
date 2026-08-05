@@ -1,7 +1,15 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Activity, LogOut, Zap } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Users,
+  Activity,
+  ShieldCheck,
+  LogOut,
+  Zap,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/hooks/useProfile';
 
 const NAV = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -11,6 +19,8 @@ const NAV = [
 
 export default function Sidebar({ onNavigate }) {
   const { user, signOut } = useAuth();
+  const { data: profile } = useProfile();
+  const isAdmin = profile?.role === 'admin';
 
   return (
     <div className="flex h-full flex-col bg-white">
@@ -43,6 +53,24 @@ export default function Sidebar({ onNavigate }) {
             {label}
           </NavLink>
         ))}
+
+        {isAdmin && (
+          <NavLink
+            to="/admin"
+            onClick={onNavigate}
+            className={({ isActive }) =>
+              cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                isActive
+                  ? 'bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              )
+            }
+          >
+            <ShieldCheck className="h-4.5 w-4.5" />
+            Admin
+          </NavLink>
+        )}
       </nav>
 
       {/* Footer / user */}
