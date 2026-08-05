@@ -17,7 +17,7 @@
 UPDATE public.profiles
 SET role = 'admin',
     status = 'approved'
-WHERE email = 'REPLACE_WITH_YOUR_ADMIN_EMAIL';
+WHERE email = 'alexp@lifestages.us';
 
 -- Verify:
 -- SELECT id, email, role, status FROM public.profiles ORDER BY created_date;
