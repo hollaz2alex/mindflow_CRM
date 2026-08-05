@@ -62,6 +62,12 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
+-- Backfill: the trigger only fires for NEW signups, so give any pre-existing
+-- auth users a profile too (they start 'pending' like everyone else).
+INSERT INTO public.profiles (id, email)
+SELECT id, email FROM auth.users
+ON CONFLICT (id) DO NOTHING;
+
 -- ---------------------------------------------------------------------------
 -- Helper predicates. SECURITY DEFINER so they read profiles WITHOUT triggering
 -- the profiles RLS policies (which would otherwise recurse).
