@@ -92,3 +92,4 @@ src/
 supabase/
 └── migrations/     schema + RLS
 ```
+# mindflow_CRM
