@@ -13,24 +13,25 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    /* Life Stages brand: olive-green primary on warm neutrals */
+    --primary: 82 14% 36%;
+    --primary-foreground: 40 40% 96%;
 
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: 40 30% 93%;
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
+    --muted: 40 30% 93%;
+    --muted-foreground: 36 10% 42%;
 
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 40 32% 90%;
+    --accent-foreground: 82 14% 30%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 12 68% 54%;
+    --destructive-foreground: 40 40% 96%;
 
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --border: 38 22% 86%;
+    --input: 38 22% 86%;
+    --ring: 82 14% 36%;
 
     --radius: 0.5rem;
   }
@@ -41,10 +42,16 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
-      sans-serif;
+    @apply bg-brand-cream text-foreground;
+    font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto,
+      Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  /* Elegant serif for top-level headings, echoing the Life Stages site */
+  h1,
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
   }
 }

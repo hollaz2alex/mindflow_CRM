@@ -92,7 +92,7 @@ export default function ActivityPage() {
         <div className="space-y-6">
           {groups.map((group) => (
             <div key={group.key}>
-              <h2 className="sticky top-0 z-10 -mx-1 bg-gray-50/90 px-1 py-2 text-sm font-semibold text-gray-500 backdrop-blur">
+              <h2 className="sticky top-0 z-10 -mx-1 bg-brand-cream/90 px-1 py-2 text-sm font-semibold text-gray-500 backdrop-blur">
                 {group.label}
               </h2>
               <Card>
@@ -120,8 +120,8 @@ function FilterPill({ active, onClick, label, icon: Icon }) {
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors',
         active
-          ? 'bg-indigo-600 text-white'
-          : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'
+          ? 'bg-brand-olive text-white'
+          : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-brand-cream'
       )}
     >
       {Icon && <Icon className="h-3.5 w-3.5" />}
@@ -158,7 +158,7 @@ function ActivityRow({ activity: a }) {
           {a.contacts ? (
             <Link
               to={`/contacts/${a.contacts.id}`}
-              className="font-medium text-indigo-600 hover:underline"
+              className="font-medium text-brand-olive hover:underline"
             >
               {fullName(a.contacts)}
             </Link>

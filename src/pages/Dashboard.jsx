@@ -96,13 +96,13 @@ export default function Dashboard() {
           label="Total Contacts"
           value={metrics.total}
           icon={Users}
-          accent="bg-indigo-50 text-indigo-600"
+          accent="bg-brand-olive/10 text-brand-olive"
         />
         <MetricCard
           label="New This Week"
           value={metrics.newThisWeek}
           icon={UserPlus}
-          accent="bg-violet-50 text-violet-600"
+          accent="bg-brand-sage/20 text-brand-sage"
         />
         <MetricCard
           label="Converted"
@@ -178,7 +178,7 @@ export default function Dashboard() {
           <CardTitle>Recent Activity</CardTitle>
           <Link
             to="/activity"
-            className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+            className="inline-flex items-center gap-1 text-sm font-medium text-brand-olive hover:text-brand-moss"
           >
             View all <ArrowRight className="h-3.5 w-3.5" />
           </Link>

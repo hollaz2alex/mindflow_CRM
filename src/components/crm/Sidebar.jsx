@@ -26,7 +26,7 @@ export default function Sidebar({ onNavigate }) {
     <div className="flex h-full flex-col bg-white">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-6 py-5">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 text-white shadow-sm">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-brand-olive to-brand-moss text-white shadow-sm">
           <Zap className="h-5 w-5" />
         </div>
         <span className="text-lg font-bold tracking-tight">MindFlow</span>
@@ -44,7 +44,7 @@ export default function Sidebar({ onNavigate }) {
               cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-sm'
+                  ? 'bg-gradient-to-r from-brand-olive to-brand-moss text-white shadow-sm'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
               )
             }
@@ -62,7 +62,7 @@ export default function Sidebar({ onNavigate }) {
               cn(
                 'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-sm'
+                  ? 'bg-gradient-to-r from-brand-olive to-brand-moss text-white shadow-sm'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
               )
             }

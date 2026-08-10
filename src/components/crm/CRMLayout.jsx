@@ -8,7 +8,7 @@ export default function CRMLayout() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-brand-cream">
       {/* Desktop sidebar — fixed 256px */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-gray-100 lg:block">
         <Sidebar />
@@ -17,7 +17,7 @@ export default function CRMLayout() {
       {/* Mobile top bar */}
       <div className="sticky top-0 z-20 flex items-center justify-between border-b border-gray-100 bg-white px-4 py-3 lg:hidden">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 text-white">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-olive to-brand-moss text-white">
             <Zap className="h-4 w-4" />
           </div>
           <span className="font-bold">MindFlow</span>

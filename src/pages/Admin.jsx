@@ -48,7 +48,7 @@ export default function Admin() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 text-white">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-brand-olive to-brand-moss text-white">
           <ShieldCheck className="h-5 w-5" />
         </div>
         <div>
@@ -90,7 +90,7 @@ export default function Admin() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm">
-                <thead className="border-b border-gray-100 bg-gray-50 text-xs uppercase text-gray-500">
+                <thead className="border-b border-gray-100 bg-brand-cream text-xs uppercase text-gray-500">
                   <tr>
                     <th className="px-4 py-3 font-medium">User</th>
                     <th className="px-4 py-3 font-medium">Role</th>
@@ -225,8 +225,8 @@ function FilterPill({ active, onClick, children }) {
       className={cn(
         'rounded-full px-3 py-1.5 text-sm font-medium transition-colors',
         active
-          ? 'bg-indigo-600 text-white'
-          : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50'
+          ? 'bg-brand-olive text-white'
+          : 'bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-brand-cream'
       )}
     >
       {children}

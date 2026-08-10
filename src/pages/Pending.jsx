@@ -15,7 +15,7 @@ export default function Pending({ status = 'pending' }) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-brand-cream px-4">
       <div className="w-full max-w-md rounded-xl border border-gray-100 bg-white p-8 text-center shadow-sm">
         <div
           className={`mx-auto flex h-14 w-14 items-center justify-center rounded-full ${
@@ -39,7 +39,7 @@ export default function Pending({ status = 'pending' }) {
         </p>
 
         {user?.email && (
-          <p className="mt-4 rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-600">
+          <p className="mt-4 rounded-lg bg-brand-cream px-3 py-2 text-sm text-gray-600">
             Signed in as <span className="font-medium">{user.email}</span>
           </p>
         )}

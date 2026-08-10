@@ -13,7 +13,7 @@ export default function MetricCard({ label, value, icon: Icon, accent }) {
           <div
             className={cn(
               'flex h-10 w-10 items-center justify-center rounded-lg',
-              accent || 'bg-indigo-50 text-indigo-600'
+              accent || 'bg-brand-olive/10 text-brand-olive'
             )}
           >
             <Icon className="h-5 w-5" />

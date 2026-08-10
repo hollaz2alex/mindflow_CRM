@@ -168,7 +168,7 @@ export default function ImportContactsModal({ open, onOpenChange }) {
                 className={cn(
                   'flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold',
                   i <= step
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-brand-olive text-white'
                     : 'bg-gray-100 text-gray-400'
                 )}
               >
@@ -186,7 +186,7 @@ export default function ImportContactsModal({ open, onOpenChange }) {
                 <div
                   className={cn(
                     'h-px flex-1',
-                    i < step ? 'bg-indigo-600' : 'bg-gray-200'
+                    i < step ? 'bg-brand-olive' : 'bg-gray-200'
                   )}
                 />
               )}
@@ -212,7 +212,7 @@ export default function ImportContactsModal({ open, onOpenChange }) {
               className={cn(
                 'flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed px-6 py-12 text-center transition-colors',
                 dragging
-                  ? 'border-indigo-400 bg-indigo-50'
+                  ? 'border-brand-olive bg-brand-olive/5'
                   : 'border-gray-200 hover:border-gray-300'
               )}
             >
@@ -299,7 +299,7 @@ export default function ImportContactsModal({ open, onOpenChange }) {
             </p>
             <div className="overflow-x-auto rounded-lg border border-gray-100">
               <table className="w-full text-left text-sm">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+                <thead className="bg-brand-cream text-xs uppercase text-gray-500">
                   <tr>
                     <th className="px-3 py-2 font-medium">First name</th>
                     <th className="px-3 py-2 font-medium">Email</th>

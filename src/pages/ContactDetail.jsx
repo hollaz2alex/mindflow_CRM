@@ -79,7 +79,7 @@ export default function ContactDetail() {
         <p className="font-medium text-gray-900">Contact not found</p>
         <Link
           to="/contacts"
-          className="mt-2 inline-block text-sm text-indigo-600 hover:underline"
+          className="mt-2 inline-block text-sm text-brand-olive hover:underline"
         >
           Back to contacts
         </Link>
@@ -103,7 +103,7 @@ export default function ContactDetail() {
           <Card>
             <CardContent className="p-6">
               <div className="flex flex-col items-center text-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 text-xl font-semibold text-white">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-olive to-brand-moss text-xl font-semibold text-white">
                   {getInitials(contact.first_name, contact.last_name)}
                 </div>
                 <h1 className="mt-3 text-xl font-bold">{fullName(contact)}</h1>
@@ -192,7 +192,7 @@ export default function ContactDetail() {
                     {contact.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700"
+                        className="rounded-full bg-brand-olive/10 px-2.5 py-0.5 text-xs font-medium text-brand-olive"
                       >
                         {tag}
                       </span>

@@ -286,13 +286,13 @@ export default function ContactForm({ open, onOpenChange, contact }) {
               {form.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700"
+                  className="inline-flex items-center gap-1 rounded-full bg-brand-olive/10 px-2.5 py-0.5 text-xs font-medium text-brand-olive"
                 >
                   {tag}
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="rounded-full hover:text-indigo-900"
+                    className="rounded-full hover:text-brand-moss"
                     aria-label={`Remove ${tag}`}
                   >
                     <X className="h-3 w-3" />
