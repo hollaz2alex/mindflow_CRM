@@ -91,6 +91,66 @@ export function useFieldOptionRows() {
   return useQuery({ queryKey: ['field_options'], queryFn: fetchOptions });
 }
 
+// Field ordering for the admin page. Falls back to FIELD_META when the
+// field_meta table is empty/unreachable.
+export function useFieldMeta() {
+  const query = useQuery({
+    queryKey: ['field_meta'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('field_meta')
+        .select('*')
+        .order('sort_order');
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 5 * 60_000,
+  });
+
+  const fields = useMemo(() => {
+    const rows = query.data;
+    if (!rows || rows.length === 0) return FIELD_META;
+    return rows.map((r) => ({ field: r.field, label: r.label }));
+  }, [query.data]);
+
+  return { fields, isLoading: query.isLoading };
+}
+
+// Persist new sort_order for a set of field_options rows (by id).
+export function useReorderFieldOptions() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (updates) => {
+      for (const u of updates) {
+        const { error } = await supabase
+          .from('field_options')
+          .update({ sort_order: u.sort_order })
+          .eq('id', u.id);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ['field_options'] }),
+  });
+}
+
+// Persist new sort_order for a set of field_meta rows (by field).
+export function useReorderFields() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (updates) => {
+      for (const u of updates) {
+        const { error } = await supabase
+          .from('field_meta')
+          .update({ sort_order: u.sort_order })
+          .eq('field', u.field);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['field_meta'] }),
+  });
+}
+
 export function useAddFieldOption() {
   const queryClient = useQueryClient();
   return useMutation({

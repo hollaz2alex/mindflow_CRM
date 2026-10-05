@@ -1,34 +1,98 @@
 import { useMemo, useState } from 'react';
-import { SlidersHorizontal, Plus, X } from 'lucide-react';
+import {
+  SlidersHorizontal,
+  Plus,
+  X,
+  ChevronUp,
+  ChevronDown,
+} from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 import AdminTabs from '@/components/crm/AdminTabs';
 import { slugify } from '@/lib/crmConstants';
 import {
-  FIELD_META,
+  useFieldMeta,
   useFieldOptionRows,
   useAddFieldOption,
   useDeleteFieldOption,
+  useReorderFieldOptions,
+  useReorderFields,
 } from '@/hooks/useFieldOptions';
 
+// Small up/down arrow control for reordering a list item.
+function MoveButtons({ onUp, onDown, upDisabled, downDisabled, disabled }) {
+  return (
+    <span className="flex flex-col">
+      <button
+        type="button"
+        onClick={onUp}
+        disabled={disabled || upDisabled}
+        className="rounded p-0.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-30 disabled:hover:bg-transparent"
+        aria-label="Move up"
+      >
+        <ChevronUp className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={onDown}
+        disabled={disabled || downDisabled}
+        className="rounded p-0.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-30 disabled:hover:bg-transparent"
+        aria-label="Move down"
+      >
+        <ChevronDown className="h-4 w-4" />
+      </button>
+    </span>
+  );
+}
+
 export default function FieldOptions() {
+  const { fields } = useFieldMeta();
   const { data: rows, isLoading } = useFieldOptionRows();
   const addOption = useAddFieldOption();
   const deleteOption = useDeleteFieldOption();
+  const reorderOptions = useReorderFieldOptions();
+  const reorderFields = useReorderFields();
 
   const [inputs, setInputs] = useState({}); // { field: newLabel }
   const [errors, setErrors] = useState({}); // { field: message }
   const [busyId, setBusyId] = useState(null);
 
+  const reordering = reorderOptions.isPending || reorderFields.isPending;
+
+  // Rows come back ordered by field then sort_order, so each group stays ordered.
   const grouped = useMemo(() => {
-    const g = Object.fromEntries(FIELD_META.map((f) => [f.field, []]));
+    const g = {};
+    for (const f of fields) g[f.field] = [];
     for (const r of rows || []) {
-      if (g[r.field]) g[r.field].push(r);
+      if (!g[r.field]) g[r.field] = [];
+      g[r.field].push(r);
     }
     return g;
-  }, [rows]);
+  }, [rows, fields]);
+
+  const moveField = async (index, dir) => {
+    const j = index + dir;
+    if (j < 0 || j >= fields.length) return;
+    const next = [...fields];
+    [next[index], next[j]] = [next[j], next[index]];
+    await reorderFields.mutateAsync(
+      next.map((f, i) => ({ field: f.field, sort_order: (i + 1) * 10 }))
+    );
+  };
+
+  const moveOption = async (field, index, dir) => {
+    const list = grouped[field] || [];
+    const j = index + dir;
+    if (j < 0 || j >= list.length) return;
+    const next = [...list];
+    [next[index], next[j]] = [next[j], next[index]];
+    await reorderOptions.mutateAsync(
+      next.map((o, i) => ({ id: o.id, sort_order: (i + 1) * 10 }))
+    );
+  };
 
   const handleAdd = async (field) => {
     const label = (inputs[field] || '').trim();
@@ -81,7 +145,7 @@ export default function FieldOptions() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Admin</h1>
           <p className="text-sm text-gray-500">
-            Manage the options that appear in each dropdown.
+            Manage, reorder, and add options for each dropdown.
           </p>
         </div>
       </div>
@@ -95,23 +159,41 @@ export default function FieldOptions() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          {FIELD_META.map(({ field, label }) => (
+        <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
+          {fields.map(({ field, label }, fIndex) => (
             <Card key={field}>
               <CardContent className="p-5">
-                <h2 className="text-base font-bold">{label}</h2>
-                <p className="mb-3 text-xs text-gray-400">
-                  {(grouped[field] || []).length} option
-                  {(grouped[field] || []).length === 1 ? '' : 's'}
-                </p>
+                <div className="mb-3 flex items-start justify-between">
+                  <div>
+                    <h2 className="text-base font-bold">{label}</h2>
+                    <p className="text-xs text-gray-400">
+                      {(grouped[field] || []).length} option
+                      {(grouped[field] || []).length === 1 ? '' : 's'}
+                    </p>
+                  </div>
+                  <MoveButtons
+                    onUp={() => moveField(fIndex, -1)}
+                    onDown={() => moveField(fIndex, 1)}
+                    upDisabled={fIndex === 0}
+                    downDisabled={fIndex === fields.length - 1}
+                    disabled={reordering}
+                  />
+                </div>
 
                 <ul className="space-y-1.5">
-                  {(grouped[field] || []).map((opt) => (
+                  {(grouped[field] || []).map((opt, oIndex) => (
                     <li
                       key={opt.id}
-                      className="flex items-center justify-between rounded-lg border border-gray-100 px-3 py-2 text-sm"
+                      className="flex items-center gap-2 rounded-lg border border-gray-100 px-2 py-1.5 text-sm"
                     >
-                      <span className="min-w-0">
+                      <MoveButtons
+                        onUp={() => moveOption(field, oIndex, -1)}
+                        onDown={() => moveOption(field, oIndex, 1)}
+                        upDisabled={oIndex === 0}
+                        downDisabled={oIndex === (grouped[field] || []).length - 1}
+                        disabled={reordering}
+                      />
+                      <span className="min-w-0 flex-1">
                         <span className="font-medium text-gray-900">
                           {opt.label}
                         </span>
@@ -119,25 +201,18 @@ export default function FieldOptions() {
                           {opt.value}
                         </span>
                       </span>
-                      <span className="flex items-center gap-2">
-                        {opt.is_default && (
-                          <span
-                            className="text-xs text-gray-400"
-                            title="Built-in option"
-                          >
-                            default
-                          </span>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(opt.id)}
-                          disabled={busyId === opt.id}
-                          className="rounded-md p-1 text-gray-400 transition-colors hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50"
-                          aria-label={`Remove ${opt.label}`}
-                        >
-                          <X className="h-4 w-4" />
-                        </button>
-                      </span>
+                      {opt.is_default && (
+                        <span className="text-xs text-gray-400">default</span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(opt.id)}
+                        disabled={busyId === opt.id}
+                        className="rounded-md p-1 text-gray-400 transition-colors hover:bg-rose-50 hover:text-rose-600 disabled:opacity-50"
+                        aria-label={`Remove ${opt.label}`}
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -172,11 +247,10 @@ export default function FieldOptions() {
         </div>
       )}
 
-      <p className="text-xs text-gray-400">
-        Any option can be removed, including built-in defaults. Removing one
-        doesn&apos;t change records that already use it — they keep the value and
-        just can&apos;t be re-selected to it. Custom options show with a neutral
-        badge color.
+      <p className={cn('text-xs text-gray-400', reordering && 'opacity-60')}>
+        Option order here is the order they appear in every dropdown. Field order
+        affects this page only. Any option can be removed, including built-in
+        defaults — records already using it keep the value.
       </p>
     </div>
   );
