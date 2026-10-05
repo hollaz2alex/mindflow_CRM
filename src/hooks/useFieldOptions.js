@@ -7,11 +7,13 @@ import {
   SOURCES,
   CLIENT_TYPES,
   ACTIVITY_TYPES,
+  BRANDS,
   CATEGORY_LABELS,
   STAGE_LABELS,
   SOURCE_LABELS,
   CLIENT_TYPE_LABELS,
   ACTIVITY_TYPE_LABELS,
+  BRAND_LABELS,
 } from '@/lib/crmConstants';
 
 export const FIELD_META = [
@@ -20,6 +22,7 @@ export const FIELD_META = [
   { field: 'source', label: 'Source' },
   { field: 'client_type', label: 'Client Type' },
   { field: 'activity_type', label: 'Activity Type' },
+  { field: 'brand', label: 'Brand' },
 ];
 
 // Built-in options used as a fallback when the DB is empty or unreachable, so
@@ -36,6 +39,7 @@ const FALLBACK = {
     value: v,
     label: ACTIVITY_TYPE_LABELS[v],
   })),
+  brand: BRANDS.map((v) => ({ value: v, label: BRAND_LABELS[v] })),
 };
 
 function fetchOptions() {
@@ -68,6 +72,7 @@ export function useFieldOptions() {
       source: [],
       client_type: [],
       activity_type: [],
+      brand: [],
     };
     for (const r of rows) {
       if (grouped[r.field]) grouped[r.field].push({ value: r.value, label: r.label });

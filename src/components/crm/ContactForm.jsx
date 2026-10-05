@@ -36,6 +36,8 @@ const EMPTY = {
   category: DEFAULT_CATEGORY,
   stage: DEFAULT_STAGE,
   source: DEFAULT_SOURCE,
+  brand: '',
+  brand_other: '',
   client_type: null,
   last_event_date: '',
   assigned_to: '',
@@ -56,6 +58,8 @@ function initialState(contact) {
     assigned_to: contact.assigned_to || '',
     notes: contact.notes || '',
     last_event_date: contact.last_event_date || '',
+    brand: contact.brand || '',
+    brand_other: contact.brand_other || '',
     tags: contact.tags || [],
   };
 }
@@ -122,6 +126,9 @@ export default function ContactForm({ open, onOpenChange, contact }) {
       category: form.category,
       stage: form.stage,
       source: form.source,
+      brand: form.brand || null,
+      brand_other:
+        form.brand === 'other' ? form.brand_other.trim() || null : null,
       assigned_to: form.assigned_to.trim() || null,
       notes: form.notes.trim() || null,
       tags: form.tags,
@@ -223,6 +230,35 @@ export default function ContactForm({ open, onOpenChange, contact }) {
               placeholder="Sales rep name"
             />
           </Field>
+
+          <Field label="Brand">
+            <Select
+              value={form.brand}
+              onValueChange={(v) => setField('brand', v)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select brand" />
+              </SelectTrigger>
+              <SelectContent>
+                {options.brand.map((b) => (
+                  <SelectItem key={b.value} value={b.value}>
+                    {b.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
+
+          {/* Conditional: free-text brand when "Other" is chosen */}
+          {form.brand === 'other' && (
+            <Field label="Brand name">
+              <Input
+                value={form.brand_other}
+                onChange={(e) => setField('brand_other', e.target.value)}
+                placeholder="Enter brand"
+              />
+            </Field>
+          )}
 
           {/* Conditional: client_type only for potential_client */}
           {form.category === 'potential_client' && (

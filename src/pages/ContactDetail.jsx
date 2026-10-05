@@ -12,6 +12,7 @@ import {
   Radio,
   UserCheck,
   Calendar,
+  Tag,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,6 +31,7 @@ import ContactForm from '@/components/crm/ContactForm';
 import ActivityForm from '@/components/crm/ActivityForm';
 import { useContact, useDeleteContact } from '@/hooks/useContacts';
 import { useContactActivities } from '@/hooks/useActivities';
+import { useFieldOptions } from '@/hooks/useFieldOptions';
 import { ACTIVITY_ICON, ACTIVITY_ICON_COLOR } from '@/lib/activityIcons';
 import {
   SOURCE_LABELS,
@@ -51,6 +53,7 @@ export default function ContactDetail() {
   const { data: contact, isLoading, isError } = useContact(id);
   const { data: activities, isLoading: activitiesLoading } =
     useContactActivities(id);
+  const { options } = useFieldOptions();
   const deleteContact = useDeleteContact();
 
   const [editOpen, setEditOpen] = useState(false);
@@ -155,6 +158,18 @@ export default function ContactDetail() {
                   icon={UserCheck}
                   label="Assigned to"
                   value={contact.assigned_to}
+                />
+                <InfoRow
+                  icon={Tag}
+                  label="Brand"
+                  value={
+                    contact.brand === 'other'
+                      ? contact.brand_other || 'Other'
+                      : contact.brand
+                        ? (options.brand.find((b) => b.value === contact.brand)
+                            ?.label ?? labelize(contact.brand))
+                        : null
+                  }
                 />
 
                 {/* Conditional fields */}

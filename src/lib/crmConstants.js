@@ -52,6 +52,15 @@ export const ACTIVITY_TYPES = [
 export const USER_STATUSES = ['pending', 'approved', 'rejected'];
 export const USER_ROLES = ['member', 'admin'];
 
+// Brand — managed via field_options; these are the seeded defaults and the
+// fallback used before the DB options load. 'other' reveals a custom text input.
+export const BRANDS = ['life_stages', 'fitness_z', 'other'];
+export const BRAND_LABELS = {
+  life_stages: 'Life Stages',
+  fitness_z: 'Fitness by Z/CPT',
+  other: 'Other',
+};
+
 // Fallbacks used by CSV normalization (see below) and defensive UI code.
 export const DEFAULT_CATEGORY = 'other';
 export const DEFAULT_STAGE = 'new_lead';
