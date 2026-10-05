@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import AdminTabs from '@/components/crm/AdminTabs';
 import { useAuth } from '@/hooks/useAuth';
 import { useUsers, useUpdateUser } from '@/hooks/useProfile';
 import {
@@ -52,12 +53,14 @@ export default function Admin() {
           <ShieldCheck className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Admin</h1>
           <p className="text-sm text-gray-500">
             Approve, reject, and manage roles.
           </p>
         </div>
       </div>
+
+      <AdminTabs />
 
       {/* Status filter */}
       <div className="flex flex-wrap gap-2">

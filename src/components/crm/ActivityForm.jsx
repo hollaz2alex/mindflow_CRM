@@ -17,12 +17,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  ACTIVITY_TYPES,
-  ACTIVITY_TYPE_LABELS,
-  DEFAULT_ACTIVITY_TYPE,
-} from '@/lib/crmConstants';
+import { DEFAULT_ACTIVITY_TYPE } from '@/lib/crmConstants';
 import { useCreateActivity } from '@/hooks/useActivities';
+import { useFieldOptions } from '@/hooks/useFieldOptions';
 
 const EMPTY = {
   type: DEFAULT_ACTIVITY_TYPE,
@@ -35,6 +32,7 @@ export default function ActivityForm({ open, onOpenChange, contactId }) {
   const [form, setForm] = useState({ ...EMPTY });
   const [error, setError] = useState('');
   const createActivity = useCreateActivity();
+  const { options } = useFieldOptions();
 
   useEffect(() => {
     if (open) {
@@ -85,9 +83,9 @@ export default function ActivityForm({ open, onOpenChange, contactId }) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {ACTIVITY_TYPES.map((t) => (
-                  <SelectItem key={t} value={t}>
-                    {ACTIVITY_TYPE_LABELS[t]}
+                {options.activity_type.map((t) => (
+                  <SelectItem key={t.value} value={t.value}>
+                    {t.label}
                   </SelectItem>
                 ))}
               </SelectContent>

@@ -19,19 +19,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  CATEGORIES,
-  CATEGORY_LABELS,
-  STAGES,
-  STAGE_LABELS,
-  SOURCES,
-  SOURCE_LABELS,
-  CLIENT_TYPES,
-  CLIENT_TYPE_LABELS,
   DEFAULT_CATEGORY,
   DEFAULT_STAGE,
   DEFAULT_SOURCE,
 } from '@/lib/crmConstants';
 import { useCreateContact, useUpdateContact } from '@/hooks/useContacts';
+import { useFieldOptions } from '@/hooks/useFieldOptions';
 
 const EMPTY = {
   first_name: '',
@@ -75,6 +68,7 @@ export default function ContactForm({ open, onOpenChange, contact }) {
 
   const createContact = useCreateContact();
   const updateContact = useUpdateContact();
+  const { options } = useFieldOptions();
   const saving = createContact.isPending || updateContact.isPending;
 
   // Reset the form whenever the dialog opens (or the target contact changes).
@@ -205,24 +199,21 @@ export default function ContactForm({ open, onOpenChange, contact }) {
             <EnumSelect
               value={form.category}
               onValueChange={(v) => setField('category', v)}
-              options={CATEGORIES}
-              labels={CATEGORY_LABELS}
+              items={options.category}
             />
           </Field>
           <Field label="Stage">
             <EnumSelect
               value={form.stage}
               onValueChange={(v) => setField('stage', v)}
-              options={STAGES}
-              labels={STAGE_LABELS}
+              items={options.stage}
             />
           </Field>
           <Field label="Source">
             <EnumSelect
               value={form.source}
               onValueChange={(v) => setField('source', v)}
-              options={SOURCES}
-              labels={SOURCE_LABELS}
+              items={options.source}
             />
           </Field>
           <Field label="Assigned to">
@@ -244,9 +235,9 @@ export default function ContactForm({ open, onOpenChange, contact }) {
                   <SelectValue placeholder="Select client type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {CLIENT_TYPES.map((ct) => (
-                    <SelectItem key={ct} value={ct}>
-                      {CLIENT_TYPE_LABELS[ct]}
+                  {options.client_type.map((ct) => (
+                    <SelectItem key={ct.value} value={ct.value}>
+                      {ct.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -345,16 +336,16 @@ function Field({ label, required, children }) {
   );
 }
 
-function EnumSelect({ value, onValueChange, options, labels }) {
+function EnumSelect({ value, onValueChange, items }) {
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        {options.map((opt) => (
-          <SelectItem key={opt} value={opt}>
-            {labels[opt] ?? opt}
+        {items.map((opt) => (
+          <SelectItem key={opt.value} value={opt.value}>
+            {opt.label}
           </SelectItem>
         ))}
       </SelectContent>

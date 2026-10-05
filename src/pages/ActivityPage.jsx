@@ -4,8 +4,8 @@ import { Activity as ActivityIcon } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useActivities } from '@/hooks/useActivities';
+import { useFieldOptions } from '@/hooks/useFieldOptions';
 import { ACTIVITY_ICON, ACTIVITY_ICON_COLOR } from '@/lib/activityIcons';
-import { ACTIVITY_TYPES, ACTIVITY_TYPE_LABELS } from '@/lib/crmConstants';
 import {
   fullName,
   formatDateTime,
@@ -18,6 +18,7 @@ const ALL = '__all__';
 
 export default function ActivityPage() {
   const { data: activities, isLoading } = useActivities();
+  const { options } = useFieldOptions();
   const [filter, setFilter] = useState(ALL);
 
   const filtered = useMemo(() => {
@@ -56,14 +57,14 @@ export default function ActivityPage() {
           onClick={() => setFilter(ALL)}
           label="All"
         />
-        {ACTIVITY_TYPES.map((type) => {
-          const Icon = ACTIVITY_ICON[type];
+        {options.activity_type.map((t) => {
+          const Icon = ACTIVITY_ICON[t.value] || ACTIVITY_ICON.other;
           return (
             <FilterPill
-              key={type}
-              active={filter === type}
-              onClick={() => setFilter(type)}
-              label={ACTIVITY_TYPE_LABELS[type]}
+              key={t.value}
+              active={filter === t.value}
+              onClick={() => setFilter(t.value)}
+              label={t.label}
               icon={Icon}
             />
           );

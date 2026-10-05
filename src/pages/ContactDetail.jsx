@@ -35,6 +35,7 @@ import {
   SOURCE_LABELS,
   CLIENT_TYPE_LABELS,
   ACTIVITY_TYPE_LABELS,
+  labelize,
 } from '@/lib/crmConstants';
 import {
   getInitials,
@@ -148,7 +149,7 @@ export default function ContactDetail() {
                 <InfoRow
                   icon={Radio}
                   label="Source"
-                  value={SOURCE_LABELS[contact.source]}
+                  value={SOURCE_LABELS[contact.source] ?? labelize(contact.source)}
                 />
                 <InfoRow
                   icon={UserCheck}
@@ -162,7 +163,10 @@ export default function ContactDetail() {
                     <InfoRow
                       icon={Building2}
                       label="Client type"
-                      value={CLIENT_TYPE_LABELS[contact.client_type]}
+                      value={
+                        CLIENT_TYPE_LABELS[contact.client_type] ??
+                        labelize(contact.client_type)
+                      }
                     />
                   )}
                 {contact.category === 'event_attendee' &&
@@ -318,7 +322,7 @@ function Timeline({ activities }) {
             <div className="flex flex-wrap items-center gap-x-2">
               <p className="font-medium text-gray-900">{a.title}</p>
               <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
-                {ACTIVITY_TYPE_LABELS[a.type] ?? a.type}
+                {ACTIVITY_TYPE_LABELS[a.type] ?? labelize(a.type)}
               </span>
             </div>
             <p className="text-xs text-gray-400">

@@ -16,11 +16,8 @@ import MetricCard from '@/components/crm/MetricCard';
 import StageBar from '@/components/crm/StageBar';
 import { useContacts } from '@/hooks/useContacts';
 import { useActivities } from '@/hooks/useActivities';
-import {
-  CATEGORIES,
-  CATEGORY_LABELS,
-  CATEGORY_HEX,
-} from '@/lib/crmConstants';
+import { useFieldOptions } from '@/hooks/useFieldOptions';
+import { CATEGORY_HEX } from '@/lib/crmConstants';
 import { ACTIVITY_ICON, ACTIVITY_ICON_COLOR } from '@/lib/activityIcons';
 import { fullName, relativeTime } from '@/lib/format';
 import { cn } from '@/lib/utils';
@@ -36,6 +33,7 @@ function isThisWeek(dateStr) {
 export default function Dashboard() {
   const { data: contacts, isLoading } = useContacts();
   const { data: activities } = useActivities();
+  const { options } = useFieldOptions();
 
   const metrics = useMemo(() => {
     const list = contacts || [];
@@ -56,13 +54,15 @@ export default function Dashboard() {
 
   const categoryData = useMemo(
     () =>
-      CATEGORIES.map((cat) => ({
-        category: cat,
-        label: CATEGORY_LABELS[cat],
-        count: metrics.categoryCounts[cat] || 0,
-        fill: CATEGORY_HEX[cat],
-      })).filter((d) => d.count > 0),
-    [metrics.categoryCounts]
+      options.category
+        .map((cat) => ({
+          category: cat.value,
+          label: cat.label,
+          count: metrics.categoryCounts[cat.value] || 0,
+          fill: CATEGORY_HEX[cat.value] || '#9ca3af',
+        }))
+        .filter((d) => d.count > 0),
+    [metrics.categoryCounts, options.category]
   );
 
   const recent = (activities || []).slice(0, 5);
@@ -125,7 +125,7 @@ export default function Dashboard() {
             <CardTitle>Pipeline by Stage</CardTitle>
           </CardHeader>
           <CardContent>
-            <StageBar counts={metrics.stageCounts} />
+            <StageBar counts={metrics.stageCounts} stages={options.stage} />
           </CardContent>
         </Card>
 

@@ -14,19 +14,13 @@ import ContactCard from '@/components/crm/ContactCard';
 import ContactForm from '@/components/crm/ContactForm';
 import ImportContactsModal from '@/components/crm/ImportContactsModal';
 import { useContacts } from '@/hooks/useContacts';
-import {
-  STAGES,
-  STAGE_LABELS,
-  CATEGORIES,
-  CATEGORY_LABELS,
-  SOURCES,
-  SOURCE_LABELS,
-} from '@/lib/crmConstants';
+import { useFieldOptions } from '@/hooks/useFieldOptions';
 
 const ALL = '__all__';
 
 export default function Contacts() {
   const { data: contacts, isLoading } = useContacts();
+  const { options } = useFieldOptions();
   const [search, setSearch] = useState('');
   const [stage, setStage] = useState(ALL);
   const [category, setCategory] = useState(ALL);
@@ -98,22 +92,19 @@ export default function Contacts() {
             value={stage}
             onValueChange={setStage}
             placeholder="All stages"
-            options={STAGES}
-            labels={STAGE_LABELS}
+            items={options.stage}
           />
           <FilterSelect
             value={category}
             onValueChange={setCategory}
             placeholder="All categories"
-            options={CATEGORIES}
-            labels={CATEGORY_LABELS}
+            items={options.category}
           />
           <FilterSelect
             value={source}
             onValueChange={setSource}
             placeholder="All sources"
-            options={SOURCES}
-            labels={SOURCE_LABELS}
+            items={options.source}
           />
         </div>
       </div>
@@ -141,7 +132,7 @@ export default function Contacts() {
   );
 }
 
-function FilterSelect({ value, onValueChange, placeholder, options, labels }) {
+function FilterSelect({ value, onValueChange, placeholder, items }) {
   return (
     <Select value={value} onValueChange={onValueChange}>
       <SelectTrigger>
@@ -149,9 +140,9 @@ function FilterSelect({ value, onValueChange, placeholder, options, labels }) {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value={ALL}>{placeholder}</SelectItem>
-        {options.map((opt) => (
-          <SelectItem key={opt} value={opt}>
-            {labels[opt] ?? opt}
+        {items.map((opt) => (
+          <SelectItem key={opt.value} value={opt.value}>
+            {opt.label}
           </SelectItem>
         ))}
       </SelectContent>

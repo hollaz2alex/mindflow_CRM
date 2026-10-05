@@ -9,6 +9,7 @@ import Contacts from '@/pages/Contacts';
 import ContactDetail from '@/pages/ContactDetail';
 import ActivityPage from '@/pages/ActivityPage';
 import Admin from '@/pages/Admin';
+import FieldOptions from '@/pages/FieldOptions';
 import Login from '@/pages/auth/Login';
 import Register from '@/pages/auth/Register';
 import ForgotPassword from '@/pages/auth/ForgotPassword';
@@ -43,6 +44,14 @@ export default function App() {
             element={
               <RequireAdmin>
                 <Admin />
+              </RequireAdmin>
+            }
+          />
+          <Route
+            path="/admin/options"
+            element={
+              <RequireAdmin>
+                <FieldOptions />
               </RequireAdmin>
             }
           />
