@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { SlidersHorizontal, Plus, X, Lock } from 'lucide-react';
+import { SlidersHorizontal, Plus, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -119,15 +119,15 @@ export default function FieldOptions() {
                           {opt.value}
                         </span>
                       </span>
-                      {opt.is_default ? (
-                        <span
-                          className="flex items-center gap-1 text-xs text-gray-400"
-                          title="Built-in option (can't be removed)"
-                        >
-                          <Lock className="h-3 w-3" />
-                          default
-                        </span>
-                      ) : (
+                      <span className="flex items-center gap-2">
+                        {opt.is_default && (
+                          <span
+                            className="text-xs text-gray-400"
+                            title="Built-in option"
+                          >
+                            default
+                          </span>
+                        )}
                         <button
                           type="button"
                           onClick={() => handleDelete(opt.id)}
@@ -137,7 +137,7 @@ export default function FieldOptions() {
                         >
                           <X className="h-4 w-4" />
                         </button>
-                      )}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -173,9 +173,10 @@ export default function FieldOptions() {
       )}
 
       <p className="text-xs text-gray-400">
-        Note: custom options show with a neutral badge color. Removing an option
+        Any option can be removed, including built-in defaults. Removing one
         doesn&apos;t change records that already use it — they keep the value and
-        just can&apos;t be re-selected to it.
+        just can&apos;t be re-selected to it. Custom options show with a neutral
+        badge color.
       </p>
     </div>
   );
